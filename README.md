@@ -5,10 +5,10 @@ This project is a fullstack TODO List application with a Flask backend and a mod
 ## Project Structure
 
 - `app/` - Flask backend (API, models, database)
-- `todo-frontend/` - React frontend (UI, API hooks, components)
+- `FrontEnd/` - React frontend (UI, API hooks, components)
 - `README.md` - Project overview (this file)
 - `app/README.md` - Backend API and usage
-- `todo-frontend/README.md` - Frontend React usage
+- `FrontEnd/README.md` - Frontend React usage
 
 ## Quick Start
 
