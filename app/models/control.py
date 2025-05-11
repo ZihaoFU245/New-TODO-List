@@ -55,6 +55,31 @@ class MainLogic:
             self.db_session.rollback()
             current_app.logger.error(f"Failed to archive task {target_id}: {e}") # Changed app.logger to current_app.logger
             return None
+        
+    def unArchive(self, target_id: int) ->Optional[Tasks]:
+        """UnArchive from the Archived Table"""
+        task = self.db_session.query(Archived).filter_by(id=target_id).first()
+
+        if not task:
+            current_app.logger.warning(f"Archived Task with id {target_id} not found for unArchiving.")
+            return None
+        
+        content = task.Finished
+
+        try:
+            self.db_session.delete(task)
+            restore_entry = Tasks(TODO=content)
+            self.db_session.add(restore_entry)
+
+            self.db_session.commit()
+            current_app.logger.info(f"Task {target_id} unArchived succesfully.")
+            return restore_entry
+        
+        except SQLAlchemyError as e:
+            self.db_session.rollback()
+            current_app.logger.error(f"Failed to unArchived task with id {target_id}: {e}")
+            return None
+
 
     def perm_delete(self, target_id: int) -> bool:
         """Permanently remove a task. Returns True on success, False otherwise."""

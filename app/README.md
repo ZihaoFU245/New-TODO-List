@@ -5,6 +5,7 @@ This is the backend API for the TODO List project, built with Flask.
 ## Features
 - Add new tasks
 - Archive tasks
+- Unarchive tasks
 - Permanently delete archived tasks
 - Paginated retrieval of tasks and archives
 - Flexible sync endpoint for efficient data transfer
@@ -26,6 +27,11 @@ All endpoints are prefixed with `/api`.
 - `POST /api/archive`
 - Body: `{ "task_id": <int> }`
 - Response: `{ "message": "Task archived successfully", "archived_task_id": <int> }`
+
+### Unarchive a Task
+- `POST /api/unArchive`
+- Body: `{ "archive_id": <int> }`
+- Response: `{ "message": "Task unArchived succesfully", "task_id": <int> }`
 
 ### Permanently Delete an Archived Task
 - `POST /api/perm_delete`

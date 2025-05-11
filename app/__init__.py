@@ -69,6 +69,15 @@ def create_app(config_object=None):
     @app.errorhandler(500)
     def server_error(error=None):
         return jsonify({'error': 'Internal server error'}), 500
+    
+    @app.route('/TODO/index')
+    @app.route('/TODO/')
+    def backend():
+        return """
+        <h1 align="center">
+        <b>The Backend of TODO List application start successfully!
+        </h1>
+        """
 
     return app
 

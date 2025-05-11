@@ -1,6 +1,6 @@
-from sqlalchemy import Column, Integer, String, Table, create_engine
+from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker, scoped_session
+from sqlalchemy.orm import sessionmaker, scoped_session
 import os
 from ..config import Config
 

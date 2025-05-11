@@ -31,6 +31,20 @@ def archive():
         return jsonify({'message': 'Task archived successfully', 'archived_task_id': archived_task.id}), 200
     else:
         return jsonify({'error': 'Failed to archive task or task not found'}), 404
+    
+@api.route('/unArchive', methods=['POST'])
+def unArchive():
+    """UnArchive a task"""
+    data = request.json
+    if not data or 'archive_id' not in data:
+        return jsonify({'error' : 'archive_id is required'}), 400
+    
+    target_id = data['archive_id']
+    unArchived_task = controller.unArchive(target_id)
+    if unArchived_task:
+        return jsonify({'message': 'Task unArchived succesfully', 'task_id': unArchived_task.id}), 200
+    else:
+        return jsonify({'error': 'Failed to unArchived task or task not found'}), 404
 
 @api.route('/perm_delete', methods=['POST'])
 def delete_from_archive():
