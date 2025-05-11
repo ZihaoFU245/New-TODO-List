@@ -1,3 +1,33 @@
+# TODO List Fullstack Project
+
+This project is a fullstack TODO List application with a Flask backend and a modern React frontend. It allows users to add, archive, and permanently delete tasks, with a clean UI and robust API.
+
+## Project Structure
+
+- `app/` - Flask backend (API, models, database)
+- `todo-frontend/` - React frontend (UI, API hooks, components)
+- `README.md` - Project overview (this file)
+- `app/README.md` - Backend API and usage
+- `todo-frontend/README.md` - Frontend React usage
+
+## Quick Start
+
+### Backend
+1. Install Python dependencies (Flask, etc.)
+2. Run the backend: `python run.py`
+
+### Frontend
+1. Install Node dependencies: `npm install` in `todo-frontend/`
+2. Start the frontend: `npm run dev` in `todo-frontend/`
+
+## Features
+- Add, archive, and delete TODO tasks
+- View active and archived tasks
+- Responsive, modern UI
+- RESTful API
+
+See subfolder READMEs for more details.
+
 # TODO List API Backend
 
 This document provides instructions for integrating with the TODO List API backend. The API allows for managing tasks including adding, archiving, and deleting tasks, as well as retrieving both active and archived tasks with pagination.
