@@ -2,3 +2,4 @@
 /logs
 /__pycache__
 app/MyTODO.db
+node_modules
