@@ -69,4 +69,48 @@ def get_archives():
     ]
     return jsonify(result)
 
+@api.route('/sync', methods=['POST'])
+def sync_data():
+    """Sync data from the server based on request params.
+    
+    This endpoint allows for flexible syncing of specific items or lists
+    to reduce unnecessary data transfer.
+    """
+    data = request.json
+    response = {}
+    
+    # Check if specific task requested
+    if data.get('fetch_task_id'):
+        task_id = data.get('fetch_task_id')
+        task = controller.get_task_by_id(task_id)
+        if task:
+            response['task'] = {'id': task.id, 'TODO': task.TODO}
+    
+    # Check if specific archive requested
+    if data.get('fetch_archive_id'):
+        archive_id = data.get('fetch_archive_id')
+        archive = controller.get_archive_by_id(archive_id)
+        if archive:
+            response['archive'] = {'id': archive.id, 'Finished': archive.Finished}
+    
+    # Check if tasks list requested
+    if data.get('fetch_tasks'):
+        page = data.get('tasks_page', 1)
+        tasks = controller.get_tasks(page=page)
+        response['tasks'] = [
+            {'id': t.id, 'TODO': t.TODO}
+            for t in tasks
+        ]
+        
+    # Check if archives list requested
+    if data.get('fetch_archives'):
+        page = data.get('archives_page', 1)
+        archives = controller.get_archives(page=page)
+        response['archives'] = [
+            {'id': a.id, 'Finished': a.Finished}
+            for a in archives
+        ]
+        
+    return jsonify(response)
+
 

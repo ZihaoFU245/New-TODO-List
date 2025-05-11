@@ -3,9 +3,9 @@ Main Logic for TODO Lists
 """
 from typing import List, Any, Optional
 from sqlalchemy.exc import SQLAlchemyError
-from flask import current_app # Changed from 'from app import app'
+from flask import current_app
 from .database import get_db_session, Tasks, Archived
-from ..config import Config # Corrected relative import for config
+from ..config import Config 
 
 class MainLogic:
     """
@@ -106,4 +106,22 @@ class MainLogic:
         except SQLAlchemyError as e:
             current_app.logger.error(f"Failed to fetch archived tasks: {e}") # Changed app.logger to current_app.logger
             return []
+
+    def get_task_by_id(self, task_id: int) -> Optional[Tasks]:
+        """Get a specific task by ID."""
+        try:
+            task = self.db_session.query(Tasks).filter_by(id=task_id).first()
+            return task
+        except SQLAlchemyError as e:
+            current_app.logger.error(f"Failed to fetch task {task_id}: {e}")
+            return None
+
+    def get_archive_by_id(self, archive_id: int) -> Optional[Archived]:
+        """Get a specific archived task by ID."""
+        try:
+            archive = self.db_session.query(Archived).filter_by(id=archive_id).first()
+            return archive
+        except SQLAlchemyError as e:
+            current_app.logger.error(f"Failed to fetch archive {archive_id}: {e}")
+            return None
 

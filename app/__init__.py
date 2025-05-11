@@ -1,6 +1,7 @@
 import logging
 from logging.handlers import RotatingFileHandler
 from flask import Flask, jsonify
+from flask_cors import CORS 
 import os
 from .models import init_db, close_db_session
 from .control_endpoints import api
@@ -25,6 +26,8 @@ def create_app(config_object=None):
     app.config.from_object(config_object)
     app.logger.addHandler(handler)
     app.logger.setLevel(logging.INFO)
+
+    CORS(app)
 
     app.logger.info('Flask app initialized with logging.')
 

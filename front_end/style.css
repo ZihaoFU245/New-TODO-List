@@ -1,0 +1,176 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin-top: 20px;
+}
+
+.container {
+    max-width: 800px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #0056b3;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+#addTaskForm input[type="text"] {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#addTaskForm button[type="submit"] {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.list-group-item {
+    margin-bottom: 8px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.list-group-item:hover {
+    background-color: #e9ecef;
+}
+
+.list-group-item button {
+    transition: opacity 0.2s ease-in-out;
+}
+
+.list-group-item:hover button {
+    opacity: 1; /* Make buttons more visible on hover */
+}
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination button {
+    margin: 0 5px;
+}
+
+.pagination span {
+    margin: 0 10px;
+    color: #555;
+    font-weight: 500;
+}
+
+/* Animation classes */
+.new-item {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Animation for crossed-out text */
+.crossed-out {
+    position: relative;
+}
+
+.crossed-out::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: red;
+    transition: width 1s ease-in-out;
+}
+
+.crossed-out.active::before {
+    width: 100%;
+}
+
+/* Task transition container */
+.task-transition-container {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Archived folder styling for animation */
+.archive-folder {
+    position: absolute;
+    width: 50px;
+    height: 40px;
+    background-color: #ffc107;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 999;
+}
+
+.archive-folder::before {
+    content: '📂';
+    font-size: 24px;
+}
+
+/* Animation for adding tasks - subtle fade in */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.list-group-item.new-item {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.fade-out {
+    animation: fadeOut 0.5s ease-in-out forwards; /* forwards will keep the state of the last keyframe */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scaleY(1);
+        max-height: 50px; /* Adjust if your items are taller */
+    }
+    to {
+        opacity: 0;
+        transform: scaleY(0);
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        border: none;
+    }
+}
+
+/* Ensure list items don't have default margins/paddings that interfere with collapse */
+.list-group-item {
+    transition: all 0.3s ease-in-out; /* Smooth transition for other property changes */
+    overflow: hidden; /* Helps with smooth height transition during fadeOut */
+}
