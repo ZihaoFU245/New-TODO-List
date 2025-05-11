@@ -1,98 +1,44 @@
 # TODO List API Backend
 
-This project is a Flask-based backend for a TODO List application. It provides API endpoints for managing tasks, including adding, archiving, and permanently deleting tasks, as well as retrieving lists of current and archived tasks with pagination.
+This document provides instructions for integrating with the TODO List API backend. The API allows for managing tasks including adding, archiving, and deleting tasks, as well as retrieving both active and archived tasks with pagination.
 
-## Project Structure
+## API Base URL
 
-```
-/
-├── app/                    # Main application package
-│   ├── __init__.py         # Application factory and initialization
-│   ├── control_endpoints.py # API endpoint definitions
-│   ├── MyTODO.db           # SQLite database file (created on first run if not present)
-│   ├── config/             # Configuration files
-│   │   ├── __init__.py
-│   │   └── settings.py     # Application settings (PORT, DATABASE_URI, etc.)
-│   ├── models/             # Database models and business logic
-│   │   ├── __init__.py
-│   │   ├── control.py      # Business logic for task management
-│   │   └── database.py     # SQLAlchemy models and database setup
-│   └── logs/               # Log files (created by the application)
-│       └── app.log
-├── run.py                  # Script to run the Flask application
-├── test_app.py             # Unit tests for the application
-└── README.md               # This file
-```
+All API endpoints are accessible under the `/api` prefix. 
 
-## Prerequisites
+By default, the API runs at: `http://localhost:5000/api`
 
-*   Python 3.x
-*   pip (Python package installer)
+## Authentication
 
-## Setup
+The API currently does not implement authentication. All endpoints are publicly accessible.
 
-1.  **Clone the repository (if applicable) or ensure you have the project files.**
-2.  **Navigate to the project directory:**
-    ```powershell
-    cd "d:\\MyProject\\New TODO List"
-    ```
-3.  **Create a virtual environment (recommended):**
-    ```powershell
-    python -m venv venv
-    .\venv\Scripts\Activate.ps1
-    ```
-4.  **Install dependencies:**
-    This project uses Flask and SQLAlchemy. You will need to install them. If a `requirements.txt` file is available, use:
-    ```powershell
-    pip install -r requirements.txt
-    ```
-    Otherwise, install the packages manually:
-    ```powershell
-    pip install Flask SQLAlchemy
-    ```
+## Database
 
-## Running the Application
-
-To run the application, execute the `run.py` script from the project root directory:
-
-```powershell
-python run.py
-```
-
-The application will start, and by default, it will be accessible at `http://localhost:5000` (or the port specified in `app/config/settings.py`). The API endpoints will be available under the `/api` prefix.
-
-The application uses an SQLite database (`MyTODO.db`) which will be created in the `app` directory if it doesn't already exist when the application starts.
-
-## Logging
-
-The application logs events to `app/logs/app.log`. This includes errors, warnings, and informational messages about application activity (e.g., task archiving, database initialization). The logging uses a `RotatingFileHandler` with a max size of 1MB and keeps one backup file.
+The backend uses an SQLite database (`app/MyTODO.db`) which is created automatically on first run if it doesn't already exist.
 
 ## Configuration
 
-Application settings can be configured in `app/config/settings.py`. Key settings include:
-*   `PORT`: The port on which the application runs.
-*   `DATABASE_URI`: The connection string for the database.
-*   `TASKS_PER_PAGE`: The number of items to return per page for paginated endpoints.
-*   `DEBUG`: Enables or disables debug mode for Flask.
+The API has the following configurable parameters in `app/config/settings.py`:
 
-## API Endpoints
+- `PORT`: The port on which the API runs (default: 5000)
+- `DATABASE_URI`: The database connection string
+- `TASKS_PER_PAGE`: Number of items returned per page (default: 25)
 
-All API endpoints are prefixed with `/api`.
+## API Reference
 
----
+All endpoints are prefixed with `/api`. Below is the complete reference for all available backend API endpoints.
 
 ### 1. Add a New Task
 
-*   **URL:** `/add`
+*   **Endpoint:** `/add`
 *   **Method:** `POST`
-*   **Description:** Adds a new task to the TODO list.
-*   **Request Body:** JSON
+*   **Description:** Adds a new task to the TODO list
+*   **Request Body:**
     ```json
     {
         "task_description": "Your new task details here"
     }
     ```
-    *   `task_description` (string, required): The description of the task. Max length is 255 characters (will be truncated if longer).
 *   **Success Response:**
     *   **Code:** `201 CREATED`
     *   **Content:**
@@ -103,27 +49,24 @@ All API endpoints are prefixed with `/api`.
         ```
 *   **Error Response:**
     *   **Code:** `400 BAD REQUEST`
-    *   **Content (Example):**
+    *   **Content:**
         ```json
         {
             "error": "task description is required"
         }
         ```
 
----
-
 ### 2. Archive a Task
 
-*   **URL:** `/archive`
+*   **Endpoint:** `/archive`
 *   **Method:** `POST`
-*   **Description:** Moves a task from the active TODO list to the archive.
-*   **Request Body:** JSON
+*   **Description:** Moves a task from the active list to the archive
+*   **Request Body:**
     ```json
     {
         "task_id": 123
     }
     ```
-    *   `task_id` (integer, required): The ID of the task to archive.
 *   **Success Response:**
     *   **Code:** `200 OK`
     *   **Content:**
@@ -133,37 +76,21 @@ All API endpoints are prefixed with `/api`.
             "archived_task_id": 456
         }
         ```
-        (where `archived_task_id` is the new ID of the task in the archive table)
 *   **Error Responses:**
-    *   **Code:** `400 BAD REQUEST`
-    *   **Content (Example):**
-        ```json
-        {
-            "error": "task_id is required"
-        }
-        ```
-    *   **Code:** `404 NOT FOUND`
-    *   **Content (Example):**
-        ```json
-        {
-            "error": "Failed to archive task or task not found"
-        }
-        ```
-
----
+    *   **Code:** `400 BAD REQUEST` - When task_id is missing
+    *   **Code:** `404 NOT FOUND` - When task doesn't exist or couldn't be archived
 
 ### 3. Permanently Delete an Archived Task
 
-*   **URL:** `/perm_delete`
-*   **Method:** `POST`
-*   **Description:** Permanently deletes a task from the archive.
-*   **Request Body:** JSON
+*   **Endpoint:** `/perm_delete`
+*   **Method:** `POST` 
+*   **Description:** Permanently deletes a task from the archive
+*   **Request Body:**
     ```json
     {
         "archive_id": 456
     }
     ```
-    *   `archive_id` (integer, required): The ID of the archived task to delete.
 *   **Success Response:**
     *   **Code:** `200 OK`
     *   **Content:**
@@ -173,33 +100,19 @@ All API endpoints are prefixed with `/api`.
         }
         ```
 *   **Error Responses:**
-    *   **Code:** `400 BAD REQUEST`
-    *   **Content (Example):**
-        ```json
-        {
-            "error": "archive_id is required"
-        }
-        ```
-    *   **Code:** `404 NOT FOUND`
-    *   **Content (Example):**
-        ```json
-        {
-            "error": "Failed to delete archive or archive not found"
-        }
-        ```
-
----
+    *   **Code:** `400 BAD REQUEST` - When archive_id is missing
+    *   **Code:** `404 NOT FOUND` - When archive doesn't exist or couldn't be deleted
 
 ### 4. Get Active Tasks
 
-*   **URL:** `/tasks`
+*   **Endpoint:** `/tasks`
 *   **Method:** `GET`
-*   **Description:** Retrieves a paginated list of active (non-archived) tasks. Tasks are returned in descending order of their ID (newest first).
+*   **Description:** Retrieves paginated list of active tasks (newest first)
 *   **Query Parameters:**
-    *   `page` (integer, optional, default: `1`): The page number to retrieve.
+    *   `page` (integer, optional, default: `1`)
 *   **Success Response:**
     *   **Code:** `200 OK`
-    *   **Content (Example for page with tasks):**
+    *   **Content:**
         ```json
         [
             {
@@ -212,23 +125,17 @@ All API endpoints are prefixed with `/api`.
             }
         ]
         ```
-    *   **Content (Example for empty page or no tasks):**
-        ```json
-        []
-        ```
-
----
 
 ### 5. Get Archived Tasks
 
-*   **URL:** `/archives`
+*   **Endpoint:** `/archives`
 *   **Method:** `GET`
-*   **Description:** Retrieves a paginated list of archived tasks. Archives are returned in descending order of their ID (newest first).
+*   **Description:** Retrieves paginated list of archived tasks (newest first)
 *   **Query Parameters:**
-    *   `page` (integer, optional, default: `1`): The page number to retrieve.
+    *   `page` (integer, optional, default: `1`)
 *   **Success Response:**
     *   **Code:** `200 OK`
-    *   **Content (Example for page with archives):**
+    *   **Content:**
         ```json
         [
             {
@@ -241,24 +148,72 @@ All API endpoints are prefixed with `/api`.
             }
         ]
         ```
-    *   **Content (Example for empty page or no archives):**
+
+### 6. Sync Data
+
+*   **Endpoint:** `/sync`
+*   **Method:** `POST`
+*   **Description:** Flexible endpoint to retrieve specific tasks, archives, or lists in a single request
+*   **Request Body:** The request should include one or more of the following fields:
+    ```json
+    {
+        "fetch_task_id": 123,        // Optional: ID of a specific task to fetch
+        "fetch_archive_id": 456,      // Optional: ID of a specific archive to fetch
+        "fetch_tasks": true,          // Optional: Set to true to fetch tasks list
+        "tasks_page": 1,             // Optional: Page number for tasks (default: 1)
+        "fetch_archives": true,       // Optional: Set to true to fetch archives list
+        "archives_page": 1           // Optional: Page number for archives (default: 1)
+    }
+    ```
+*   **Success Response:**
+    *   **Code:** `200 OK`
+    *   **Content:** The response will include only the requested data:
         ```json
-        []
+        {
+            "task": {                    // Present if fetch_task_id was provided
+                "id": 123,
+                "TODO": "Task content"
+            },
+            "archive": {                 // Present if fetch_archive_id was provided
+                "id": 456,
+                "Finished": "Archived task content"
+            },
+            "tasks": [                   // Present if fetch_tasks was true
+                {
+                    "id": 102,
+                    "TODO": "Task 1"
+                },
+                {
+                    "id": 101,
+                    "TODO": "Task 2"
+                }
+            ],
+            "archives": [                // Present if fetch_archives was true
+                {
+                    "id": 78,
+                    "Finished": "Archive 1"
+                },
+                {
+                    "id": 77,
+                    "Finished": "Archive 2"
+                }
+            ]
+        }
         ```
 
----
+## Error Handling
 
-## Running Tests
+The API returns appropriate HTTP status codes and error messages:
 
-Unit tests are located in `test_app.py` and can be run using `pytest`.
+* `400 Bad Request` - When required parameters are missing
+* `404 Not Found` - When requested resources don't exist
+* `500 Internal Server Error` - When server-side errors occur
 
-1.  **Ensure `pytest` is installed:**
-    ```powershell
-    pip install pytest
-    ```
-2.  **Run tests from the project root directory:**
-    ```powershell
-    pytest
-    ```
+## Pagination
 
-This will execute all tests and report the results. The tests use an in-memory SQLite database and do not affect the `MyTODO.db` file.
+Endpoints that return lists (`/tasks`, `/archives`, and the list responses in `/sync`) 
+support pagination with the following characteristics:
+
+* Default page size: 25 items (configurable in `app/config/settings.py`)
+* Page numbering starts at 1
+* Results are sorted in descending order by ID (newest first)
