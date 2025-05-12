@@ -116,26 +116,26 @@ export default function TodoItem({ todo, onToggle, onDelete, actionLabel = "Dele
     return (
         <div
             ref={todoItemRef}
-            className={`todo-item-hover flex items-center justify-between p-4 mb-3 rounded-lg shadow-sm border hover:shadow-md transition-all duration-200 transform todo-enter ${todo.completed ? 'todo-complete' : ''
+            className={`todo-item-hover flex flex-wrap sm:flex-nowrap items-center justify-between p-4 mb-3 rounded-lg shadow-sm border hover:shadow-md transition-all duration-200 transform todo-enter ${todo.completed ? 'todo-complete' : ''
                 } ${isCompleting ? 'todo-delete' : 'hover:translate-x-1'
                 } ${currentTheme === 'nature'
                     ? 'bg-white dark:bg-gray-800 border-nature-200 dark:border-nature-900'
                     : 'bg-white dark:bg-gray-700 border-gray-100 dark:border-gray-600'
                 }`}
         >
-            <label className="flex items-center space-x-3 flex-grow cursor-pointer">
+            <label className="flex items-center space-x-3 flex-grow min-w-0 cursor-pointer">
                 <input
                     type="checkbox"
                     checked={todo.completed || isCompleting}
                     onChange={handleToggle}
                     disabled={isCompleting}
-                    className={`form-checkbox h-5 w-5 rounded transition duration-150 ease-in-out ${currentTheme === 'nature'
+                    className={`form-checkbox h-5 w-5 flex-shrink-0 rounded transition duration-150 ease-in-out ${currentTheme === 'nature'
                             ? 'text-nature-600 dark:text-nature-400 border-nature-300 dark:border-nature-600 focus:ring-nature-500 dark:focus:ring-nature-400'
                             : 'text-indigo-600 dark:text-indigo-400 border-gray-300 dark:border-gray-500 focus:ring-indigo-500 dark:focus:ring-indigo-400'
                         }`}
                 />
-                <div className="relative">
-                    <span className={`transition-all duration-150 pencil-animation ${todo.completed ? 'text-gray-500 dark:text-gray-400 completed' : 'text-gray-800 dark:text-gray-200'
+                <div className="relative min-w-0 flex-grow">
+                    <span className={`transition-all duration-150 pencil-animation break-words line-clamp-3 ${todo.completed ? 'text-gray-500 dark:text-gray-400 completed' : 'text-gray-800 dark:text-gray-200'
                         }`}>
                         {todo.task}
                     </span>
@@ -173,7 +173,7 @@ export default function TodoItem({ todo, onToggle, onDelete, actionLabel = "Dele
                     )}
                 </div>
             </label>
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 flex-shrink-0 ml-2 mt-2 sm:mt-0">
                 {/* Toggle button for Archive/Unarchive */}
                 <button
                     ref={toggleButtonRef}
