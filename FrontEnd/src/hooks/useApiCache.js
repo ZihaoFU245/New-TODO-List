@@ -52,11 +52,22 @@ export default function useApiCache(initialData = []) {
         
         // If successful, update with real data if needed
         if (operation === 'add' && response && response.data) {
+          // Get the real ID from the response if available
+          const newId = response.data.id || response.data.task_id;
+          
           // Replace temp item with real one if API returns the created item
           setData(current => {
-            const updated = current.map(item => 
-              item.id === tempId ? { ...item, ...response.data } : item
-            );
+            const updated = current.map(item => {
+              if (item.id === tempId) {
+                // Create a new object with the server's ID and other data
+                return { 
+                  ...item, 
+                  id: newId || item.id,  // Use real ID from server or keep temp if not available
+                  ...response.data 
+                };
+              }
+              return item;
+            });
             console.log('Updated data after API response:', updated);
             return updated;
           });

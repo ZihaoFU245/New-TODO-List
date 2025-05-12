@@ -15,8 +15,12 @@ def add_task():
         return jsonify({'error' : 'task description is required'}), 400
     
     task = data['task_description']
-    controller.add_todo(task)
-    return jsonify({'message': 'Task added successfully'}), 201
+    new_task = controller.add_todo(task)
+    return jsonify({
+        'message': 'Task added successfully', 
+        'id': new_task.id,
+        'task': task
+    }), 201
 
 @api.route('/archive', methods=['POST'])
 def archive():

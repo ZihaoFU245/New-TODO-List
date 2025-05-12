@@ -3,3 +3,9 @@
 /__pycache__
 app/MyTODO.db
 node_modules
+FrontEnd/dist/index.html
+FrontEnd/dist/service-worker.js
+FrontEnd/dist/assets/index-C6XwKxk1.js
+FrontEnd/dist/assets/index-cmbdYmzo.css
+app/__pycache__/control_endpoints.cpython-312.pyc
+app/__pycache__/control_endpoints.cpython-312.pyc

@@ -16,10 +16,11 @@ class MainLogic:
         * Remove from `Tasks` then add to `Archived`
         * permenently delete from `Archived`
     """
+    
     def __init__(self):
         self.db_session = get_db_session()
-
-    def add_todo(self, detail: str) -> None:
+        
+    def add_todo(self, detail: str) -> Optional[Tasks]:
         """Add a new task."""
         try:
             if len(detail) > 255:
@@ -29,9 +30,13 @@ class MainLogic:
             )
             self.db_session.add(task)
             self.db_session.commit()
+            # Refresh the task to get the assigned ID
+            self.db_session.refresh(task)
+            return task
         except SQLAlchemyError as e:
             self.db_session.rollback()
             current_app.logger.error(f"Failed to insert new task {e}") # Changed app.logger to current_app.logger
+            return None
 
     def archive(self, target_id:int) -> Optional[Archived]:
         """Archive a task."""

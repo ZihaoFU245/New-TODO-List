@@ -6,10 +6,10 @@ const API_CACHE = 'todo-api-v1';
 
 // Resources to cache immediately on installation
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/assets/index.css',
-  '/assets/index.js'
+  './',
+  './index.html',
+  './assets/index-cmbdYmzo.css',
+  './assets/index-B4rPrHc8.js'
 ];
 
 // Listen for the install event

@@ -14,6 +14,9 @@ const setupDarkMode = () => {
   }
 }
 
+// Execute darkmode setup immediately
+setupDarkMode();
+
 // Register service worker for better performance through caching
 const registerServiceWorker = () => {
   if ('serviceWorker' in navigator) {

@@ -15,8 +15,13 @@ export const archiveTodo = (id) => {
   
   // Check if the ID is a temporary ID (starts with 'temp-')
   if (typeof id === 'string' && id.startsWith('temp-')) {
-    console.error('Cannot archive a task with a temporary ID:', id);
-    return Promise.reject(new Error('Cannot archive a temporary task. Please wait for the task to be saved to the server.'));
+    console.warn('Attempting to archive a task with a temporary ID:', id);
+    // Return a special promise that will be handled by the optimistic update
+    return {
+      status: 'pending',
+      message: 'Task still saving to server',
+      tempId: id
+    };
   }
   
   // Convert ID to integer and provide detailed logging
