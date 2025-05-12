@@ -253,3 +253,14 @@ button:hover, .theme-selector button:hover {
   box-shadow: 0 6px 24px 0 var(--accent-color), 0 1.5px 6px 0 var(--accent-hover);
   border-radius: 0.75rem; /* Ensure rounded rectangle on hover */
 }
+
+/* Todo item hover effect */
+.todo-item-hover {
+  transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s;
+  will-change: transform, box-shadow;
+}
+.todo-item-hover:hover {
+  transform: scale(1.045) translateY(-2px);
+  box-shadow: 0 8px 32px 0 var(--accent-color, #6366f1), 0 2px 8px 0 rgba(60,60,120,0.10);
+  z-index: 2;
+}

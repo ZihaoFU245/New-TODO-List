@@ -116,7 +116,7 @@ export default function TodoItem({ todo, onToggle, onDelete, actionLabel = "Dele
     return (
         <div
             ref={todoItemRef}
-            className={`flex items-center justify-between p-4 mb-3 rounded-lg shadow-sm border hover:shadow-md transition-all duration-200 transform todo-enter ${todo.completed ? 'todo-complete' : ''
+            className={`todo-item-hover flex items-center justify-between p-4 mb-3 rounded-lg shadow-sm border hover:shadow-md transition-all duration-200 transform todo-enter ${todo.completed ? 'todo-complete' : ''
                 } ${isCompleting ? 'todo-delete' : 'hover:translate-x-1'
                 } ${currentTheme === 'nature'
                     ? 'bg-white dark:bg-gray-800 border-nature-200 dark:border-nature-900'
