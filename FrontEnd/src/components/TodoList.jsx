@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo, useCallback } from 'react'
+import React, { useState, useEffect, memo, useCallback, useRef } from 'react'
 import TodoItem from './TodoItem'
 
 // Use memo to prevent unnecessary re-renders when props don't change
@@ -24,11 +24,43 @@ export default memo(function TodoList({ todos = [], onToggle, onDelete, actionLa
         setRenderTodos(safeTodos);
     }, [todos]);
 
+    // No animations references needed after removing AnimeJS
+    
+    // Get current theme
+    const [currentTheme, setCurrentTheme] = useState('light');
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setCurrentTheme(savedTheme);
+        
+        const handleStorageChange = (e) => {
+            if (e.key === 'theme') {
+                setCurrentTheme(e.newValue || 'light');
+            }
+        };
+        
+        window.addEventListener('storage', handleStorageChange);
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []);
+
     // Render empty state - all hooks are called before any conditional returns
     if (!renderTodos || renderTodos.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center py-10 text-gray-500 dark:text-gray-400 animate-fadeIn">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-gray-300 dark:text-gray-600 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div
+                className={`flex flex-col items-center justify-center py-10 
+                ${currentTheme === 'nature' 
+                    ? 'text-nature-500 dark:text-nature-400' 
+                    : 'text-gray-500 dark:text-gray-400'} 
+                animate-fadeIn`}
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                    className={`h-16 w-16 mb-3 
+                    ${currentTheme === 'nature' 
+                        ? 'text-nature-300 dark:text-nature-600' 
+                        : 'text-gray-300 dark:text-gray-600'}`} 
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
                 <p className="text-lg font-medium">No tasks found</p>
@@ -38,11 +70,21 @@ export default memo(function TodoList({ todos = [], onToggle, onDelete, actionLa
     }
 
     return (
-        <div className={`mt-4 space-y-2 relative ${isLoading ? 'opacity-70' : ''}`}>
+        <div
+            className={`mt-4 space-y-2 relative ${isLoading ? 'opacity-70' : ''}`}
+        >
             {/* Loading overlay */}
             {isLoading && (
-                <div className="absolute inset-0 bg-white bg-opacity-20 dark:bg-black dark:bg-opacity-10 flex items-center justify-center z-10 rounded-lg backdrop-blur-sm">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 dark:border-indigo-400"></div>
+                <div className={`absolute inset-0 flex items-center justify-center z-10 rounded-lg backdrop-blur-sm
+                    ${currentTheme === 'nature' 
+                        ? 'bg-white bg-opacity-20 dark:bg-nature-900 dark:bg-opacity-10' 
+                        : 'bg-white bg-opacity-20 dark:bg-black dark:bg-opacity-10'}`}
+                >
+                    <div className={`animate-spin rounded-full h-8 w-8 border-b-2 
+                        ${currentTheme === 'nature' 
+                            ? 'border-nature-600 dark:border-nature-400' 
+                            : 'border-indigo-600 dark:border-indigo-400'}`}
+                    ></div>
                 </div>
             )}
 
@@ -52,7 +94,6 @@ export default memo(function TodoList({ todos = [], onToggle, onDelete, actionLa
                     key={todo.id}
                     className="animate-fadeIn transform transition-all duration-200 ease-out"
                     style={{
-                        animationDelay: `${Math.min(index * 50, 500)}ms`,
                         opacity: isLoading ? 0.7 : 1
                     }}
                 >

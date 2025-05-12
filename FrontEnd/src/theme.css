@@ -1,0 +1,255 @@
+/* Additional theme-specific CSS for our application */
+/* Redesigned, creative, and visually appealing color palettes for each theme */
+
+.light-theme {
+  --bg-gradient-start: #f8fafc;
+  --bg-gradient-end: #e0e7ef;
+  --bg-gradient-mid: #f6d365;
+  --bg-gradient-pop: #fda085;
+  --card-bg: #ffffff;
+  --card-border: rgba(180, 200, 230, 0.4);
+  --text-primary: #22223b;
+  --text-secondary: #4a5568;
+  --accent-color: #5e60ce;
+  --accent-hover: #3a0ca3;
+  --hover-text-color: #fff;
+}
+
+.dark-theme {
+  --bg-gradient-start: #232946;
+  --bg-gradient-end: #121629;
+  --bg-gradient-mid: #5f2a82;
+  --bg-gradient-pop: #eebbc3;
+  --card-bg: #232946;
+  --card-border: rgba(35, 41, 70, 0.7);
+  --text-primary: #eebbc3;
+  --text-secondary: #b8c1ec;
+  --accent-color: #eebbc3;
+  --accent-hover: #ffd6e0;
+  --hover-text-color: #232946;
+}
+
+.nature-theme {
+  --bg-gradient-start: #e6f9f5;
+  --bg-gradient-end: #b6e2d3;
+  --bg-gradient-mid: #b7e4c7;
+  --bg-gradient-pop: #38b000;
+  --card-bg: #f7fff7;
+  --card-border: rgba(52, 199, 89, 0.2);
+  --text-primary: #22543d;
+  --text-secondary: #38a169;
+  --accent-color: #38b000;
+  --accent-hover: #008000;
+  --hover-text-color: #fff;
+}
+
+.dark.nature-theme {
+  --bg-gradient-start: #1b4332;
+  --bg-gradient-end: #081c15;
+  --bg-gradient-mid: #2d6a4f;
+  --bg-gradient-pop: #95d5b2;
+  --card-bg: #2d6a4f;
+  --card-border: rgba(56, 176, 0, 0.3);
+  --text-primary: #d8f3dc;
+  --text-secondary: #b7e4c7;
+  --accent-color: #95d5b2;
+  --accent-hover: #38b000;
+  --hover-text-color: #1b4332;
+}
+
+.purple-theme {
+  --bg-gradient-start: #f3e8ff;
+  --bg-gradient-end: #e0c3fc;
+  --bg-gradient-mid: #a4508b;
+  --bg-gradient-pop: #5f2a82;
+  --card-bg: #f8f0fc;
+  --card-border: rgba(186, 104, 200, 0.2);
+  --text-primary: #5f2a82;
+  --text-secondary: #a4508b;
+  --accent-color: #a4508b;
+  --accent-hover: #5f2a82;
+  --hover-text-color: #fff;
+}
+
+.dark.purple-theme {
+  --bg-gradient-start: #2d0036;
+  --bg-gradient-end: #5f2a82;
+  --bg-gradient-mid: #a4508b;
+  --bg-gradient-pop: #f3e8ff;
+  --card-bg: #3d155f;
+  --card-border: rgba(95, 42, 130, 0.4);
+  --text-primary: #f3e8ff;
+  --text-secondary: #e0c3fc;
+  --accent-color: #a4508b;
+  --accent-hover: #f3e8ff;
+  --hover-text-color: #f3e8ff;
+}
+
+.ocean-theme {
+  --bg-gradient-start: #caf0f8;
+  --bg-gradient-end: #90e0ef;
+  --bg-gradient-mid: #00b4d8;
+  --bg-gradient-pop: #0077b6;
+  --card-bg: #e0fbfc;
+  --card-border: rgba(0, 168, 232, 0.2);
+  --text-primary: #023e8a;
+  --text-secondary: #0096c7;
+  --accent-color: #00b4d8;
+  --accent-hover: #0077b6;
+  --hover-text-color: #023e8a;
+}
+
+.dark.ocean-theme {
+  --bg-gradient-start: #03045e;
+  --bg-gradient-end: #0077b6;
+  --bg-gradient-mid: #00b4d8;
+  --bg-gradient-pop: #48cae4;
+  --card-bg: #023e8a;
+  --card-border: rgba(0, 119, 182, 0.3);
+  --text-primary: #caf0f8;
+  --text-secondary: #90e0ef;
+  --accent-color: #00b4d8;
+  --accent-hover: #48cae4;
+  --hover-text-color: #caf0f8;
+}
+
+.sunset-theme {
+  --bg-gradient-start: #fff1e6;
+  --bg-gradient-end: #ffd6ba;
+  --bg-gradient-mid: #ffb347;
+  --bg-gradient-pop: #ff6700;
+  --card-bg: #fff5e6;
+  --card-border: rgba(255, 183, 94, 0.2);
+  --text-primary: #ff6700;
+  --text-secondary: #ffb347;
+  --accent-color: #ff8c42;
+  --accent-hover: #ff6700;
+  --hover-text-color: #fff;
+}
+
+.dark.sunset-theme {
+  --bg-gradient-start: #6a040f;
+  --bg-gradient-end: #ff6700;
+  --bg-gradient-mid: #ffb347;
+  --bg-gradient-pop: #ffd6ba;
+  --card-bg: #9d0208;
+  --card-border: rgba(255, 103, 0, 0.3);
+  --text-primary: #ffd6ba;
+  --text-secondary: #fff1e6;
+  --accent-color: #ffb347;
+  --accent-hover: #ff8c42;
+  --hover-text-color: #6a040f;
+}
+
+/* Apply the themed background to the app */
+.app-container {
+  background: linear-gradient(-45deg, var(--bg-gradient-start), var(--bg-gradient-end), var(--accent-color), var(--bg-gradient-start));
+  background-size: 400% 400%;
+  animation: gradientMove 12s ease-in-out infinite;
+  min-height: 100vh;
+  color: var(--text-primary);
+  transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Apply theme colors to cards */
+.app-container .card {
+  background-color: var(--card-bg);
+  border: 2px solid var(--card-border);
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 32px 0 rgba(60, 60, 120, 0.08), 0 1.5px 6px 0 var(--accent-color);
+  transition: box-shadow 0.4s, border-color 0.4s, background 0.5s;
+  position: relative;
+  overflow: hidden;
+}
+.app-container .card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1.25rem;
+  pointer-events: none;
+  border: 2px solid var(--accent-color);
+  opacity: 0.12;
+  animation: borderPulse 2.5s infinite alternate;
+}
+@keyframes borderPulse {
+  0% { opacity: 0.12; }
+  100% { opacity: 0.28; }
+}
+
+/* Floating animation for elements */
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Shimmer effect for completed tasks */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #fff0, #fff4, #fff0, #ffb347, #a4508b, #38b000, #00b4d8, #fff0);
+  animation: shimmer 1.5s infinite, rainbowShimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    transform: translateX(200%);
+  }
+}
+
+@keyframes rainbowShimmer {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+/* Add confetti pop for completed tasks (example) */
+.completed-task-pop {
+  animation: confettiPop 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+@keyframes confettiPop {
+  0% { transform: scale(0.7) rotate(-8deg); opacity: 0.2; }
+  60% { transform: scale(1.1) rotate(8deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Button animation and color pop */
+button, .theme-selector button {
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s;
+  box-shadow: 0 2px 8px 0 rgba(60, 60, 120, 0.08);
+  border-radius: 0.75rem; /* Rounded rectangle edges */
+}
+button:hover, .theme-selector button:hover {
+  background: var(--accent-hover);
+  color: var(--hover-text-color, #fff); /* Use theme variable, fallback to white */
+  transform: translateY(-2px) scale(1.04) rotate(-1deg);
+  box-shadow: 0 6px 24px 0 var(--accent-color), 0 1.5px 6px 0 var(--accent-hover);
+  border-radius: 0.75rem; /* Ensure rounded rectangle on hover */
+}

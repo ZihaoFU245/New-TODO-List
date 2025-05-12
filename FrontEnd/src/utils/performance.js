@@ -11,17 +11,17 @@
  * @return {Function} Returns the new debounced function
  */
 export function debounce(func, wait = 300) {
-  let timeout;
-  
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
+    let timeout;
+
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
     };
-    
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
 }
 
 /**
@@ -32,17 +32,17 @@ export function debounce(func, wait = 300) {
  * @return {Function} Returns the new throttled function
  */
 export function throttle(func, wait = 300) {
-  let inThrottle = false;
-  
-  return function executedFunction(...args) {
-    if (!inThrottle) {
-      func(...args);
-      inThrottle = true;
-      setTimeout(() => {
-        inThrottle = false;
-      }, wait);
-    }
-  };
+    let inThrottle = false;
+
+    return function executedFunction(...args) {
+        if (!inThrottle) {
+            func(...args);
+            inThrottle = true;
+            setTimeout(() => {
+                inThrottle = false;
+            }, wait);
+        }
+    };
 }
 
 /**
@@ -52,16 +52,16 @@ export function throttle(func, wait = 300) {
  * @return {Function} Returns the new memoized function
  */
 export function memoize(fn) {
-  const cache = new Map();
-  
-  return function (...args) {
-    const key = JSON.stringify(args);
-    if (cache.has(key)) {
-      return cache.get(key);
-    }
-    
-    const result = fn(...args);
-    cache.set(key, result);
-    return result;
-  };
+    const cache = new Map();
+
+    return function (...args) {
+        const key = JSON.stringify(args);
+        if (cache.has(key)) {
+            return cache.get(key);
+        }
+
+        const result = fn(...args);
+        cache.set(key, result);
+        return result;
+    };
 }
