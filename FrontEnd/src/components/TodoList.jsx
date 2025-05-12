@@ -2,7 +2,7 @@ import React, { useState, useEffect, memo, useCallback } from 'react'
 import TodoItem from './TodoItem'
 
 // Use memo to prevent unnecessary re-renders when props don't change
-export default memo(function TodoList({ todos = [], onToggle, onDelete, actionLabel, isLoading }) {
+export default memo(function TodoList({ todos = [], onToggle, onDelete, actionLabel, toggleLabel = "Complete", isLoading }) {
     // Ensure todos is always an array even if null/undefined is passed
     const safeItems = Array.isArray(todos) ? todos : [];
     const [renderTodos, setRenderTodos] = useState(safeItems);
@@ -61,6 +61,7 @@ export default memo(function TodoList({ todos = [], onToggle, onDelete, actionLa
                         onToggle={handleToggle}
                         onDelete={handleDelete}
                         actionLabel={actionLabel}
+                        toggleLabel={toggleLabel}
                     />
                 </div>
             ))}

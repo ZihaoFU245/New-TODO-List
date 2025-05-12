@@ -184,6 +184,90 @@ export default function App() {
       console.error('Failed to archive todo:', error);
     }
   }, [optimisticTodosUpdate, optimisticArchivesUpdate, setError])
+  const handleUnarchive = useCallback(async (archive) => {
+    try {
+      if (!archive) {
+        console.error('Attempt to unarchive undefined/null archive');
+        setError('Cannot unarchive: invalid archive object');
+        return;
+      }
+      
+      // Make sure we're using the correct ID
+      const archiveId = archive.id;
+      
+      if (archiveId === undefined || archiveId === null) {
+        console.error('Archive ID is undefined or null:', archive);
+        setError('Cannot unarchive: missing archive ID.');
+        return;
+      }
+      
+      // Ensure we have a numeric ID for the API
+      const parsedId = typeof archiveId === 'string' ? parseInt(archiveId, 10) : archiveId;
+      
+      if (isNaN(parsedId)) {
+        console.error(`Invalid archive ID format (not a number): ${archiveId}`);
+        setError('Cannot unarchive: ID is not a valid number.');
+        return;
+      }
+      
+      // Get task content
+      const taskContent = archive.task || archive.Finished || '';
+      if (!taskContent) {
+        console.warn('Archive being unarchived has no content:', archive);
+        // Continue anyway, but log the warning
+      }
+      
+      console.log(`Unarchiving archive with ID: ${parsedId}`);
+      
+      // First call the API and ensure it succeeds
+      try {
+        const response = await api.unarchiveTodo(parsedId);
+        console.log('Unarchive API response:', response);
+        
+        if (response && response.status === 200) {
+          const newTaskId = response.data.task_id;
+          console.log(`Archive unarchived successfully with new task ID: ${newTaskId}`);
+          
+          // Remove from archives optimistically
+          optimisticArchivesUpdate(
+            'remove',
+            { ...archive, id: parsedId }, // Ensure consistent ID format
+            () => Promise.resolve() // API call already made
+          );
+          
+          // Create the unarchived task item
+          const unArchivedItem = {
+            id: newTaskId,
+            task: taskContent,
+            TODO: taskContent // Backend format
+          };
+          
+          console.log('Adding to todos list:', unArchivedItem);
+          
+          // Add to todos
+          optimisticTodosUpdate(
+            'add',
+            unArchivedItem,
+            () => Promise.resolve() // API call already made
+          );
+          
+          // Clear any previous error
+          setError(null);
+        } else {
+          console.warn('Unexpected response format from unarchive API:', response);
+          setError('Unexpected response from the server.');
+        }
+      } catch (apiError) {
+        console.error('API error during unarchive:', apiError);
+        const errorMessage = apiError.response?.data?.error || apiError.message || 'Unknown error';
+        setError(`Failed to unarchive: ${errorMessage}`);
+      }
+    } catch (error) {
+      console.error('Failed to unarchive archive:', error);
+      setError('An unexpected error occurred while unarchiving.');
+    }
+  }, [optimisticArchivesUpdate, optimisticTodosUpdate, setError]);
+
   const handleDelete = useCallback(async (archive) => {
     try {
       if (!archive) {
@@ -404,9 +488,10 @@ export default function App() {
               ) : (
                 <TodoList
                   todos={mappedArchives || []}
-                  onToggle={() => {}}
+                  onToggle={handleUnarchive}
                   onDelete={handleDelete}
                   actionLabel="Delete"
+                  toggleLabel="Unarchive"
                   isLoading={archivesLoading}
                 />
               )}

@@ -55,4 +55,23 @@ export const deleteTodo = (id) => {
   console.log('Making delete API call with archive_id:', archiveId);
   return API.post('/perm_delete', { archive_id: archiveId });
 }
+
+export const unarchiveTodo = (id) => {
+  // Ensure we have a valid ID
+  if (id === undefined || id === null) {
+    console.error('Invalid ID passed to unarchiveTodo:', id);
+    return Promise.reject(new Error('Invalid archive ID'));
+  }
+  
+  // Convert ID to integer and provide detailed logging
+  const archiveId = parseInt(id, 10);
+  
+  if (isNaN(archiveId)) {
+    console.error('Failed to parse ID in unarchiveTodo:', id);
+    return Promise.reject(new Error(`Cannot convert "${id}" to a valid archive ID`));
+  }
+  
+  console.log('Making unarchive API call with archive_id:', archiveId);
+  return API.post('/unArchive', { archive_id: archiveId });
+}
 export const getArchives = () => API.get('/archives')
